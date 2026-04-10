@@ -1,0 +1,212 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "OpenWeather Minimal API",
+    "version": "1.0.0",
+    "description": "Minimal OpenAPI spec for OpenWeather geocoding and current weather endpoints."
+  },
+  "servers": [
+    {
+      "url": "https://api.openweathermap.org",
+      "description": "OpenWeather API"
+    }
+  ],
+  "paths": {
+    "/geo/1.0/direct": {
+      "get": {
+        "operationId": "get_direct_geocoding",
+        "summary": "Get coordinates by city name",
+        "description": "Returns geographic coordinates for a city or area name.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "description": "City name, state code and country code divided by comma. Example: Seattle,WA,US",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "description": "Number of locations to return.",
+            "schema": {
+              "type": "integer",
+              "default": 1,
+              "minimum": 1,
+              "maximum": 5
+            }
+          },
+          {
+            "name": "appid",
+            "in": "query",
+            "required": true,
+            "description": "OpenWeather API key.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful geocoding response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "lat": {
+                        "type": "number"
+                      },
+                      "lon": {
+                        "type": "number"
+                      },
+                      "country": {
+                        "type": "string"
+                      },
+                      "state": {
+                        "type": "string"
+                      }
+                    },
+                    "required": ["name", "lat", "lon", "country"]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/data/2.5/weather": {
+      "get": {
+        "operationId": "get_current_weather",
+        "summary": "Get current weather by coordinates",
+        "description": "Returns current weather for a geographic coordinate.",
+        "parameters": [
+          {
+            "name": "lat",
+            "in": "query",
+            "required": true,
+            "description": "Latitude",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "lon",
+            "in": "query",
+            "required": true,
+            "description": "Longitude",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "appid",
+            "in": "query",
+            "required": true,
+            "description": "OpenWeather API key.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "units",
+            "in": "query",
+            "required": false,
+            "description": "Units of measurement",
+            "schema": {
+              "type": "string",
+              "enum": ["standard", "metric", "imperial"],
+              "default": "imperial"
+            }
+          },
+          {
+            "name": "lang",
+            "in": "query",
+            "required": false,
+            "description": "Output language",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful current weather response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "weather": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "main": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "icon": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "main": {
+                      "type": "object",
+                      "properties": {
+                        "temp": {
+                          "type": "number"
+                        },
+                        "feels_like": {
+                          "type": "number"
+                        },
+                        "temp_min": {
+                          "type": "number"
+                        },
+                        "temp_max": {
+                          "type": "number"
+                        },
+                        "pressure": {
+                          "type": "integer"
+                        },
+                        "humidity": {
+                          "type": "integer"
+                        }
+                      }
+                    },
+                    "wind": {
+                      "type": "object",
+                      "properties": {
+                        "speed": {
+                          "type": "number"
+                        },
+                        "deg": {
+                          "type": "integer"
+                        }
+                      }
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
