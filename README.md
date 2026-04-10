@@ -1,3 +1,3 @@
 # Agentic-AI-Projects
-Udemy Learnings Hands on Labs on Azure
+Udemy Learnings Hands on Labs - Azure
 
