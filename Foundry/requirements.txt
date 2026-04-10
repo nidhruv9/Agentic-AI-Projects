@@ -1,4 +1,0 @@
-azure-ai-projects>=2.0.0b4
-azure-identity
-python-dotenv
-jsonref
